@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="border p-3">
+    <h1>Calculate age</h1>
+    <div class="row">
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="row col-6 m-auto">
+                <label for="birth_date">Select your D.O.B</label>
+                <input 
+                    placeholder="Select date" 
+                    type="date" 
+                    name="date"
+                    value="{{date_of_birth}}"
+                    id="birth_date" class="form-control">
+                <div class="text-center">
+                    <input id="calculate" type="submit"
+                        class="btn btn-success mt-3" name="submit"
+                        value="Submit">
+                </div>
+            </div>
+        </form>
+        <div id="age_container" class="p-4 text-dark">
+            <h4 id="exact_age" class="text-center">{{age}}</h4>
+        </div>
+    </div>
+</div>
+{% endblock content %}
