@@ -1,8 +1,8 @@
 from .interface import ICalculateView
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import time
 
-class CalculateAge(ICalculateView):
+class Calculate(ICalculateView):
 
     def display_age(self, date_of_birth):
         if date_of_birth == None or date_of_birth  == '':
@@ -35,3 +35,17 @@ class CalculateAge(ICalculateView):
             day_diff = curr_day - born_day 
         age = today.year - born.year
         return { "result": str(age) +"  Years   " + str(month_diff) +  "  Months  and " + str(day_diff) + "  Days" }
+
+    def display_date_from_days(self, days):
+
+        if days == '' or days == None:
+            return { "error": 'Days can not be empty' }
+
+        days = int(days)
+        
+        if days < 0:
+            return { "error": 'Days can not be negative' }
+
+        end_date = date.today() + timedelta(days=days)
+
+        return { "result": end_date }
