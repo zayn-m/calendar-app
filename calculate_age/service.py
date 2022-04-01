@@ -1,9 +1,23 @@
 from .interface import ICalculateView
 from datetime import date, datetime
+import time
 
 class CalculateAge(ICalculateView):
 
     def display_age(self, date_of_birth):
+        if date_of_birth == None or date_of_birth  == '':
+            return {
+                "error": 'Please enter a valid date'
+            }
+
+        current_date = time.time()
+        date_of_birth_timestamp = time.mktime(datetime.strptime(date_of_birth, "%Y-%m-%d").timetuple())
+
+        if date_of_birth_timestamp >= current_date:
+            return {
+                "error": 'Date of birth can not be greater than current date'
+            }
+
         born_date = date_of_birth
         born = datetime.strptime(born_date, '%Y-%m-%d')
         today = date.today()
@@ -20,4 +34,4 @@ class CalculateAge(ICalculateView):
         else :
             day_diff = curr_day - born_day 
         age = today.year - born.year
-        return str(age) +"  Years   " + str(month_diff) +  "  Months  and " + str(day_diff) + "  Days"
+        return { "result": str(age) +"  Years   " + str(month_diff) +  "  Months  and " + str(day_diff) + "  Days" }

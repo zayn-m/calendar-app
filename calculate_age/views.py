@@ -4,6 +4,7 @@ from datetime import date, datetime
 import numpy as np
 from django.views.generic import TemplateView
 from .service import CalculateAge
+import time
 
 # Create your views here.
 class CalculateAgeView(TemplateView):
@@ -12,9 +13,10 @@ class CalculateAgeView(TemplateView):
     def post(self, request, **kwargs):
         date_of_birth = request.POST['date']
         cal_age = CalculateAge()
-        age = cal_age.display_age(date_of_birth)
+        response = cal_age.display_age(date_of_birth)
         context = {
-            "age": age,
-            "date_of_birth": date_of_birth
+            "date_of_birth": date_of_birth,
+            "age": response.get('result') or None,
+            "error": response.get('error') or None
         }
         return super(TemplateView, self).render_to_response(context)
