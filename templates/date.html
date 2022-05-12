@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="border p-3">
+<div class="border p-3 bg-white mt-5">
     <h1>Display future date</h1>
     <div class="row">
+        {% if error %}
+            <div class="alert alert-danger col-6 mx-auto" role="alert">
+                {{error}}
+            </div>
+        {% endif %}
         <form method="post" class="mt-4">
             {% csrf_token %}
             <div class="row col-6 m-auto">
-                <label for="days">Enter days</label>
+                <label for="days" class="p-0">Enter days</label>
                 <input 
                     type="number"
                     name="days"
@@ -23,10 +28,9 @@
         </form>
         <div id="age_container" class="p-4 text-dark">
             {% if date %}
-            <h4 id="exact_age" class="text-center">{{date}}</h4>
-            {% endif %}
-            {% if error %}
-            <h4 class="text-danger text-center">{{error}}</h4>
+            <div class="alert alert-success col-6 mx-auto" role="alert">
+                {{date}}
+            </div>
             {% endif %}
         </div>
     </div>

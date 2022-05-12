@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="border p-3 bg-white mt-5">
+    <h1>Events</h1>
+    <div class="row">
+        <div id='calendar'></div>
+        <div class="modal" tabindex="-1" id="create-event-modal">
+            <div class="modal-dialog">
+            <form method="post" id="event-form">
+                {% csrf_token %}
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Create Event</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="mb-3">
+                        <label class="form-label">Selected Date</label>
+                        <input type="text" class="form-control disabled" id="selected-date-input" name="selected-date-input" readonly>
+                        <label class="form-label mt-3">Title</label>
+                        <input type="text" class="form-control" placeholder="Sync Meeting" id="event-input" name="event-input" required>
+                        <span id="invalid-meeting-title" class="text-danger hidden"></span>
+                    <form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="event-save-btn">Save changes</button>
+                </div>
+              </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ events|json_script:"events" }}
+<script>
+    const mydata = JSON.parse(document.getElementById('events').textContent);
+    window.eventsData = JSON.parse(mydata);
+</script>
+
+{% endblock content %}

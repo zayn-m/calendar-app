@@ -5,6 +5,9 @@ import numpy as np
 from django.views.generic import TemplateView
 from .service import Calculate
 import time
+import json
+
+events = []
 
 # Create your views here.
 class CalculateAgeView(TemplateView):
@@ -33,4 +36,23 @@ class DateFromDays(TemplateView):
             "date": response.get('result'), 
             "error": response.get('error')
          }
+        return super(TemplateView, self).render_to_response(context)
+
+class Events(TemplateView):
+    template_name = "events.html"
+
+    def get(self, request):
+        context = {
+            "events": json.dumps(events)
+        }
+        return super(TemplateView, self).render_to_response(context)
+
+    def post(self, request, **kwargs):
+        event = request.POST['event-input']
+        date = request.POST['selected-date-input']
+        events.append({ "id": date, "title": event, "start": date })
+        print(events)
+        context = {
+            "events": json.dumps(events)
+        }
         return super(TemplateView, self).render_to_response(context)
