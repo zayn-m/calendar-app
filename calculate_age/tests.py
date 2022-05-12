@@ -17,3 +17,15 @@ class CalculateAgeTest(TestCase):
         cal_age = Calculate()
         age = cal_age.display_age(dob).get('error')
         self.assertEqual(age, 'Please enter a valid date')
+
+    def test_date_from_days_empty_error(self):
+        days = ''
+        cal_age = Calculate()
+        result = cal_age.display_date_from_days(days).get('error')
+        self.assertEqual(result, 'Days can not be empty')
+
+    def test_date_from_days_negative_error(self):
+        days = -1
+        cal_age = Calculate()
+        result = cal_age.display_date_from_days(days).get('error')
+        self.assertEqual(result, 'Days can not be negative')
